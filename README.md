@@ -4,4 +4,5 @@ This repository is a list of all module those are developed for purely tutorials
 
 
 # List Of Modules:
-  - magento2-basic-module  : Create a basic module with minimal files(composer.json, registration.php, etc/module.xml)
+  - **magento2-basic-module**  : Create a basic module with minimal files(composer.json, registration.php, etc/module.xml)
+  - **magento2-helloworld-module**  : Create a basic module to display `Hellow World` in front-end.
