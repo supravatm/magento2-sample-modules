@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Define provider class that was used in node dataSource/class-->
+    <virtualType name="UniqueNameGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Galaxy\CRUD\Model\ResourceModel\Item\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">UniqueNameItemIdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- collection resolves to standard collection class and filerPool defines new element: -->
+    <virtualType name="UniqueNameItemIdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Now we register our data source -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="crud_item_listing_data_source" xsi:type="string">Galaxy\CRUD\Model\ResourceModel\Item\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Galaxy\CRUD\Model\ResourceModel\Item\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">tbl_crud_items</argument>
+            <argument name="resourceModel" xsi:type="string">Galaxy\CRUD\Model\ResourceModel\Item</argument>
+        </arguments>
+    </virtualType>
+</config>
