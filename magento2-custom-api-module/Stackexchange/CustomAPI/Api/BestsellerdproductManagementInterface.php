@@ -23,6 +23,6 @@ interface BestsellerdproductManagementInterface
      * @return \Magento\Catalog\Api\Data\ProductSearchResultsInterface
      */
 
-    public function getList();
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
 }

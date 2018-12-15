@@ -2,7 +2,7 @@
     <route url="/V1/bestsellerproduct/list" method="GET">
         <service class="\Stackexchange\CustomAPI\Api\BestsellerdproductManagementInterface" method="getList"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="Stackexchange_CustomAPI::list"/>
         </resources>
     </route>
 </routes>

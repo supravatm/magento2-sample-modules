@@ -5,7 +5,7 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Stackexchange_CustomAPI::main" title="Best_Seller_Product_API" sortOrder="999">
-                    <resource id="Stackexchange_CustomAPI::getProducts" title="Best Seller Product List" sortOrder="10"/>
+                    <resource id="Stackexchange_CustomAPI::list" title="Best Seller Product List" sortOrder="10"/>
                 </resource>
             </resource>
         </resources>
