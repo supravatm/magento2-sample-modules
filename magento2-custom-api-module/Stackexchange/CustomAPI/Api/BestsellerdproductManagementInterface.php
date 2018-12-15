@@ -17,11 +17,12 @@ interface BestsellerdproductManagementInterface
 {
 
     /**
-     * Retrieve available product types
+     * Get product list
      *
-     * @return \Magento\Catalog\Api\Data\ProductTypeInterface[]
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \Magento\Catalog\Api\Data\ProductSearchResultsInterface
      */
 
-    public function getproducts();
+    public function getList();
 
 }
