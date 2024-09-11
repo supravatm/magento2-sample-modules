@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="certification_servicecontract" resource="default" engine="innodb" comment="Service Contract sample table">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Id"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="true" identity="false"
+                default="0" comment="Store Id"/>
+        <column xsi:type="varchar" name="first_name" nullable="true" length="150" comment="First Name"/>
+        <column xsi:type="varchar" name="last_name" nullable="true" length="150" comment="Last Name"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="150" comment="Email"/>
+
+        <column xsi:type="int" name="status" padding="11" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Status"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="NEWSLETTER_SUBSCRIBER_STORE_ID_STORE_STORE_ID"
+                    table="newsletter_subscriber" column="store_id" referenceTable="store" referenceColumn="store_id"
+                    onDelete="SET NULL"/>
+        <index referenceId="NEWSLETTER_SUBSCRIBER_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index referenceId="NEWSLETTER_SUBSCRIBER_SUBSCRIBER_EMAIL" indexType="btree">
+            <column name="email"/>
+        </index>
+    </table>
+</schema>

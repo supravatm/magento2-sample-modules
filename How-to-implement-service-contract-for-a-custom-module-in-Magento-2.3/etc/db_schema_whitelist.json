@@ -1,0 +1,14 @@
+{
+    "learning_frontend_crud": {
+        "column": {
+            "id": true,
+            "name": true,
+            "email": true,
+            "telephone": true,
+            "comment": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

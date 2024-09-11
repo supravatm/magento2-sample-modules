@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Certification_ProductComment::comment_all" title="Comments" translate="title" module="Certification_ProductComment" parent="Magento_Backend::marketing_user_content" sortOrder="10" action="comment/product/index" resource="Certification_ProductComment::comment_all"/>
+    </menu>
+</config>

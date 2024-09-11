@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Certification_SampleAdminForm::main" title="SampleAdminForm" translate="title" module="Certification_SampleAdminForm" sortOrder="30" resource="Certification_SampleAdminForm::main"/>
+        <add id="Certification_SampleAdminForm::uiform" title="Sample Admin Form UI" translate="title" module="Certification_SampleAdminForm" sortOrder="10" parent="Certification_SampleAdminForm::main" action="sampleform/index/" resource="Certification_SampleAdminForm::uiform"/>
+    </menu>
+</config>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Galaxy_CRUD::crud" title="Sample CRUD" module="Galaxy_CRUD" sortOrder="60" resource="Galaxy_CRUD::crud" />
+
+        <add id="Galaxy_CRUD::crud_item" title="Manage Item" module="Galaxy_CRUD" sortOrder="0" action="crud/item" resource="Galaxy_CRUD::crud_item" parent="Galaxy_CRUD::crud" />
+    </menu>
+</config>

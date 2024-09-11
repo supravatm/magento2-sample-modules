@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Certification\ServiceContract\Api\ServiceModelRepositoryInterface"
+                type="Certification\ServiceContract\Model\ServiceModelRepository"/>
+    <preference for="Certification\ServiceContract\Api\Data\ServiceModelInterface"
+                type="Certification\ServiceContract\Model\ServiceModel"/>
+    <preference for="Certification\ServiceContract\Api\Data\ServiceModelSearchResultsInterface"
+                type="Certification\ServiceContract\Model\ServiceModelSearchResults"/>
+</config>

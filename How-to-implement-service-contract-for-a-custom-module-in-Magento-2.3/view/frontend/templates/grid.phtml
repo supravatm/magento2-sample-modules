@@ -1,0 +1,25 @@
+<?php /* Learning\FrontendCrud\Block\Index\Grid $block */ ?>
+
+
+<table style="width:100%">
+    <tr>
+        <th><?= __('ID'); ?> </th>
+        <th><?= __('Name'); ?></th>
+        <th><?= __('Email'); ?></th>
+        <th><?= __('Telephone'); ?></th>
+        <th><?= __('Comment'); ?></th>
+        <th><?= __('Action'); ?></th>
+        <th><?= __('Action'); ?></th>
+    </tr>
+    <?php foreach ($block->getItems() as $item) : ?>
+        <tr>
+            <td><?= $item->getData('id') ?></td>
+            <td><?= $item->getData('name') ?></td>
+            <td><?= $item->getData('email') ?></td>
+            <td><?= $item->getData('telephone') ?></td>
+            <td><?= $item->getData('comment') ?></td>
+            <td><a href="<?= $this->getUrl('crudfrontend/index/update',['id'=>$item->getData('id')])?>">Update</a></td>
+            <td><a href="<?= $this->getUrl('crudfrontend/index/delete',['id'=>$item->getData('id')])?>">Delete</a></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

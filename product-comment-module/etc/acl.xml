@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Certification_ProductComment::main" title="Product Comment" sortOrder="999">
+                    <resource id="Certification_ProductComment::webservice" title="API" sortOrder="10"/>
+                    <resource id="Certification_ProductComment::comment_all" title="Comment Grid" translate="title" sortOrder="10"/>
+                    <resource id="Certification_ProductComment::save" title="Comment save" translate="title" sortOrder="20"/>
+                    <resource id="Certification_ProductComment::update" title="Comment update" translate="title" sortOrder="20"/>
+                    <resource id="Certification_ProductComment::add" title="Comment add" translate="title" sortOrder="20"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

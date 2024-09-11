@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">uiform_sample1.uiform_sample1_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="Magento\Banner\Block\Adminhtml\Banner\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Magento\Banner\Block\Adminhtml\Banner\Edit\SaveButton"/>
+            <button name="reset" class="Magento\Banner\Block\Adminhtml\Banner\Edit\ResetButton"/>
+            <button name="delete" class="Magento\Banner\Block\Adminhtml\Banner\Edit\DeleteButton"/>
+            <button name="back">
+                <url path="*/*/"/>
+                <class>back</class>
+                <label translate="true">Back Page</label>
+            </button>
+        </buttons>
+        <namespace>uiform_sample1</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>uiform_sample1.uiform_sample1_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="uiform_sample1_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="admin/banner/save"/>
+        </settings>
+        <dataProvider class="Certification\SampleAdminForm\Model\DataProvider" name="uiform_sample1_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>banner_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="properties" sortOrder="10">
+        <settings>
+            <label/>
+        </settings>
+        <field name="is_enabled" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">2</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable Dynamic Block</label>
+                <scopeLabel>[GLOBAL]</scopeLabel>
+                <dataScope>is_enabled</dataScope>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.readonly</link>
+                </imports>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="name" formElement="input">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Dynamic Block Name</label>
+                <scopeLabel>[GLOBAL]</scopeLabel>
+                <visible>true</visible>
+                <dataScope>name</dataScope>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.readonly</link>
+                </imports>
+            </settings>
+        </field>
+        <field name="types" formElement="select" component="Magento_Ui/js/form/element/ui-select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="selectedPlaceholders" xsi:type="array">
+                        <item name="defaultPlaceholder" xsi:type="string">Any Dynamic Block Type</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <dataType>text</dataType>
+                <label translate="true">Dynamic Block Type</label>
+                <scopeLabel>[GLOBAL]</scopeLabel>
+                <dataScope>types</dataScope>
+                <imports>
+                    <link name="disabled">${ $.provider }:data.readonly</link>
+                </imports>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Banner\Model\Config"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

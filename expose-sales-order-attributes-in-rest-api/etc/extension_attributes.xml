@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * @package   Born_OrderExtensionAttributesAPI
+ * @author    Born Support <support@borngroup.com>
+ * @copyright 2019-2020 Borngroup. All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="account_number" type="string" /> <!-- type defined as string -->
+    </extension_attributes>
+</config>

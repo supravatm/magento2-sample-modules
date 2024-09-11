@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<body>
+    <referenceBlock name="product.info.details">
+        <!--<block class="Magento\Catalog\Block\Product\View" name="product.comment.tab" template="Certification_ProductComment::product/view/comment.phtml" group="detailed_info" >
+            <arguments>
+                <argument translate="true" name="title" xsi:type="string">Comments</argument>
+            </arguments>
+        </block>-->
+        
+		<block class="Certification\ProductComment\Block\Product\Comment" name="comment.tab" as="comments" template="Certification_ProductComment::comment.phtml" group="detailed_info">
+			<block class="Certification\ProductComment\Block\Product\View\ListView" name="product.comment.list" as="comment_list">
+				<block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
+			</block>
+			<block class="Certification\ProductComment\Block\Form" name="product.comment.form" as="comment_form">
+				<container name="product.comment.form.fields.before" as="form_fields_before" label="Comment Form Fields Before"/>
+			</block>
+		</block>
+    </referenceBlock>
+</body>
+</page>

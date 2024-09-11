@@ -1,0 +1,40 @@
+<?php
+
+$_items = $block->getCommentsCollection()->getItems();
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+?>
+<?php if (count($_items)):?>
+    <div class="block review-list" id="customer-reviews">
+        <div class="block-title">
+            <strong><?= $block->escapeHtml(__('Customer Comment')) ?></strong>
+        </div>
+        <div class="block-content">
+            <div class="toolbar review-toolbar">
+                <?= $block->getChildHtml('toolbar') ?>
+            </div>
+            <ol class="items review-items">
+                <?php foreach ($_items as $_comment):?>
+                    <li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+                        <div class="review-content" itemprop="description">
+                            <?= nl2br($block->escapeHtml($_comment->getCustomerComment())) ?>
+                        </div>
+                        <div class="review-details">
+                            <p class="review-author">
+                                <span class="review-details-label"><?= $block->escapeHtml(__('Comment by')) ?></span>
+                                <strong class="review-details-value" itemprop="author"><?= $block->escapeHtml($_comment->getCustomerEmail()) ?></strong>
+                            </p>
+                            <p class="review-date">
+                                <span class="review-details-label"><?= $block->escapeHtml(__('Posted on')) ?></span>
+                                <time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_comment->getCreatedAt(), $format)) ?>"><?= $block->escapeHtml($block->formatDate($_comment->getCreatedAt(), $format)) ?></time>
+                            </p>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <div class="toolbar review-toolbar">
+                <?= $block->getChildHtml('toolbar') ?>
+                <?php echo $this->getToolbarHtml(); ?>
+            </div>
+        </div>
+    </div>
+<?php endif;?>

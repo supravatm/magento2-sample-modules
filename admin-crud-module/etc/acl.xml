@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Galaxy_CRUD::crud" title="Sample CRUD Application" sortOrder="100">
+                    <resource id="Galaxy_CRUD::crud_item" title="Item List" sortOrder="10"/>
+                    <resource id="Galaxy_CRUD::crud_item_save" title="Items Update" sortOrder="20"/>
+                    <resource id="Galaxy_CRUD::crud_item_delete" title="Item Delete" sortOrder="30"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
