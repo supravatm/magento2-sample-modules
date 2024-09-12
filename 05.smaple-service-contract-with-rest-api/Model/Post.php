@@ -12,23 +12,47 @@ use SMG\Blog\Api\Data\PostInterface;
 
 class Post extends AbstractExtensibleModel implements PostInterface
 {
+    const CACHE_TAG = 'smg_blog_post_item';
+    protected $_cacheTag = 'smg_blog_post_item';
+    protected $_eventPrefix = 'smg_blog_post_item';
+
     protected function _construct()
     {
         $this->_init(ResourceModel\Post::class);
     }
-    /**
-     * Retrieve post id
-     *
-     * @return int
-     */
-    public function getId()
+
+    public function getIdentities()
     {
-        return $this->getData(PostInterface::POST_ID);
+        return [self::CACHE_TAG . '_' . $this->getId()];
+    }
+
+    public function getDefaultValues()
+    {
+        $values = [];
+
+        return $values;
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->getData(PostInterface::ID);
+    }
+
+    /**
+     * Retrieve post author
+     * @inheritdoc
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->getData(PostInterface::AUTHOR);
+    }
+    /**
      * Retrieve post title
-     *
+     * @inheritdoc
      * @return string
      */
     public function getTitle()
@@ -38,7 +62,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Retrieve post content
-     *
+     * @inheritdoc
      * @return string
      */
     public function getContent()
@@ -48,7 +72,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Retrieve post creation time
-     *
+     * @inheritdoc
      * @return string
      */
     public function getCreationTime()
@@ -58,7 +82,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Retrieve post update time
-     *
+     * @inheritdoc
      * @return string
      */
     public function getUpdateTime()
@@ -68,7 +92,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Is active
-     *
+     * @inheritdoc
      * @return bool
      */
     public function isActive()
@@ -78,18 +102,29 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Set ID
-     *
+     * @inheritdoc
      * @param int $id
      * @return PostInterface
      */
     public function setId($id)
     {
-        return $this->setData(PostInterface::POST_ID, $id);
+        return $this->setData(PostInterface::ID, $id);
+    }
+
+    /**
+     * set author
+     * @inheritdoc
+     * @param string $author
+     * @return PostInterface
+     */
+    public function setAuthor($author)
+    {
+        return $this->setData(PostInterface::AUTHOR, $author);
     }
 
     /**
      * Set title
-     *
+     * @inheritdoc
      * @param string $title
      * @return PostInterface
      */
@@ -100,7 +135,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Set content
-     *
+     * @inheritdoc
      * @param string $content
      * @return PostInterface
      */
@@ -111,7 +146,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Set creation time
-     *
+     * @inheritdoc
      * @param string $creationTime
      * @return PostInterface
      */
@@ -122,7 +157,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Set update time
-     *
+     * @inheritdoc
      * @param string $updateTime
      * @return PostInterface
      */
@@ -133,7 +168,7 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     /**
      * Set is active
-     *
+     * @inheritdoc
      * @param bool|int $isActive
      * @return PostInterface
      */
@@ -144,12 +179,22 @@ class Post extends AbstractExtensibleModel implements PostInterface
 
     public function getExtensionAttributes()
     {
-        return $this->getExtensionAttributes();
+        return $this->_getExtensionAttributes();
     }
 
-    public function setExtensionAttributes(PostExtensionInterface $extensionAttributes)
+    public function setExtensionAttributes(HamburgerExtensionInterface $extensionAttributes)
     {
-        $this->setExtensionAttributes($extensionAttributes);
+        $this->_setExtensionAttributes($extensionAttributes);
     }
 
+    public function afterDeleteCommit()
+    {
+        $this->getResource()->deleteStores($this->getId());
+        parent::afterDeleteCommit();
+    }
+
+    public function afterSave()
+    {
+        $this->getResource()->saveRelationStore($this->getId(), $this->getStoreId());
+    }
 }

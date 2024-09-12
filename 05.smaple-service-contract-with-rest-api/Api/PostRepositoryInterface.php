@@ -2,33 +2,45 @@
 
 namespace SMG\Blog\Api;
 
-use Magento\Framework\Api\SearchCriteriaInterface;
 use SMG\Blog\Api\Data\PostInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 
 interface PostRepositoryInterface
 {
     /**
-     * @param int $id
-     * @return \SMG\Blog\Api\Data\PostInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function getById($id);
-
-    /**
-     * @param \SMG\Blog\Api\Data\PostInterface $post
-     * @return \S\Blog\Api\Data\PostInterface
+     * @api
+     * @param  SMG\Blog\Api\Data\PostInterface $post
+     * @return SMG\Blog\Api\Data\PostInterface
      */
     public function save(PostInterface $post);
 
     /**
-     * @param \SMG\Blog\Api\Data\PostInterface $post
-     * @return void
+     * @api
+     * @param  SMG\Blog\Api\Data\PostInterface $post
+     * @return SMG\Blog\Api\Data\PostInterface
      */
     public function delete(PostInterface $post);
 
     /**
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \SMG\Blog\Api\Data\PostSearchResultInterface
+     * @api
+     * @param  int $id
+     * @return SMG\Blog\Api\Data\PostInterface
+     * @throws void 
      */
-    public function getList(SearchCriteriaInterface $searchCriteria);
+    public function deleteById($id);
+
+    /**
+     * @api
+     * @param int $id
+     * @return SMG\Blog\Api\Data\PostInterface
+     * @throws Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getById($id);
+
+    /**
+     * @api
+     * @param Magento\Framework\Api\SearchCriteriaInterface $criteria
+     * @return SMG\Blog\Api\Data\CustomSearchResultsInterface
+     */
+    public function getList(SearchCriteriaInterface $criteria);
 }

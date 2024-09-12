@@ -1,111 +1,108 @@
 <?php
 namespace SMG\Blog\Model;
 
+use \SMG\Blog\Api\PostRepositoryInterface;
+use \SMG\Blog\Api\Data\PostInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use SMG\Blog\Api\Data\PostInterface;
-use SMG\Blog\Api\Data\PostSearchResultInterface;
-use SMG\Blog\Api\Data\PostSearchResultsInterfaceFactory;
-use SMG\Blog\Api\PostRepositoryInterface;
-use SMG\Blog\Model\ResourceModel\Post\CollectionFactory as PostCollectionFactory;
-use SMG\Blog\Model\ResourceModel\Post\Collection;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Api\SortOrder;
+
 
 class PostRepository implements PostRepositoryInterface
 {
-    /**
-     * @var PostFactory
-     */
-    private $postFactory;
-
-    /**
-     * @var PostCollectionFactory
-     */
-    private $postCollectionFactory;
-
-    /**
-     * @var PostSearchResultsInterfaceFactory
-     */
-    private $searchResultFactory;
+    protected $postFactory;
+    protected $collectionFactory;
+    protected $searchResultsFactory;
 
     public function __construct(
-        PostFactory $postFactory,
-        PostCollectionFactory $postCollectionFactory,
-        PostSearchResultsInterfaceFactory $postSearchResultsInterfaceFactory
+        \SMG\Blog\Model\PostFactory $postFactory,
+        \SMG\Blog\Model\ResourceModel\Post\CollectionFactory $collectionFactory,
+        \Magento\Framework\Api\SearchResultsInterfaceFactory $searchResultsFactory
     ) {
-        $this->postFactory = $postFactory;
-        $this->postCollectionFactory = $postCollectionFactory;
-        $this->searchResultFactory = $postSearchResultsInterfaceFactory;
+        $this->postFactory          = $postFactory;
+        $this->collectionFactory    = $collectionFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
     }
 
+    public function save(PostInterface $object)
+    {
+        try {
+            $this->objectResourceModel->save($object);
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException(__($e->getMessage()));
+        }
+        return $object;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getById($id)
     {
-        $post = $this->postFactory->create();
-        $post->getResource()->load($post, $id);
-        if (! $post->getId()) {
-            throw new NoSuchEntityException(__('Unable to find post with ID "%1"', $id));
+        $object = $this->postFactory->create();
+        $object->getResource()->load($object, $id);
+        if (!$object->getId()) {
+            throw new NoSuchEntityException(__('Object with id "%1" does not exist.', $id));
         }
-        return $post;
+        return $object;
     }
 
-    public function save(PostInterface $post)
+    public function delete(PostInterface $object)
     {
-        $post->getResource()->save($post);
-        return $post;
+        try {
+            $this->objectResourceModel->delete($object);
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException(__($exception->getMessage()));
+        }
+        return true;
     }
 
-    public function delete(PostInterface $post)
+    public function deleteById($id)
     {
-        $post->getResource()->delete($post);
+        return $this->delete($this->getById($id));
     }
 
-    public function getList(SearchCriteriaInterface $searchCriteria)
+    /**
+     * @inheritdoc
+     */
+    public function getList(SearchCriteriaInterface $criteria)
     {
+        $searchResults = $this->searchResultsFactory->create();
+        $searchResults->setSearchCriteria($criteria);
         $collection = $this->collectionFactory->create();
-
-        $this->addFiltersToCollection($searchCriteria, $collection);
-        $this->addSortOrdersToCollection($searchCriteria, $collection);
-        $this->addPagingToCollection($searchCriteria, $collection);
-
-        $collection->load();
-
-        return $this->buildSearchResult($searchCriteria, $collection);
-    }
-
-    private function addFiltersToCollection(SearchCriteriaInterface $searchCriteria, Collection $collection)
-    {
-        foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
-            $fields = $conditions = [];
+        foreach ($criteria->getFilterGroups() as $filterGroup) {
+            $fields = [];
+            $conditions = [];
             foreach ($filterGroup->getFilters() as $filter) {
+                $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
                 $fields[] = $filter->getField();
-                $conditions[] = [$filter->getConditionType() => $filter->getValue()];
+                $conditions[] = [$condition => $filter->getValue()];
             }
-            $collection->addFieldToFilter($fields, $conditions);
+            if ($fields) {
+                $collection->addFieldToFilter($fields, $conditions);
+            }
         }
-    }
-
-    private function addSortOrdersToCollection(SearchCriteriaInterface $searchCriteria, Collection $collection)
-    {
-        foreach ((array) $searchCriteria->getSortOrders() as $sortOrder) {
-            $direction = $sortOrder->getDirection() == SortOrder::SORT_ASC ? 'asc' : 'desc';
-            $collection->addOrder($sortOrder->getField(), $direction);
-        }
-    }
-
-    private function addPagingToCollection(SearchCriteriaInterface $searchCriteria, Collection $collection)
-    {
-        $collection->setPageSize($searchCriteria->getPageSize());
-        $collection->setCurPage($searchCriteria->getCurrentPage());
-    }
-
-    private function buildSearchResult(SearchCriteriaInterface $searchCriteria, Collection $collection)
-    {
-        $searchResults = $this->searchResultFactory->create();
-
-        $searchResults->setSearchCriteria($searchCriteria);
-        $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
-
+        $sortOrders = $criteria->getSortOrders();
+        if ($sortOrders) {
+            /** @var SortOrder $sortOrder */
+            foreach ($sortOrders as $sortOrder) {
+                $collection->addOrder(
+                    $sortOrder->getField(),
+                    ($sortOrder->getDirection() == SortOrder::SORT_ASC) ? 'ASC' : 'DESC'
+                );
+            }
+        }
+        $collection->setCurPage($criteria->getCurrentPage());
+        $collection->setPageSize($criteria->getPageSize());
+        $objects = [];
+        foreach ($collection as $objectModel) {
+            $objects[] = $objectModel;
+        }
+        $searchResults->setItems($objects);
         return $searchResults;
     }
 }
+

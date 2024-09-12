@@ -1,130 +1,75 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace SMG\Blog\Api\Data;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
-
-/**
- * Blog Post interface.
- * @api
- * @since 100.0.2
- */
-interface PostInterface extends ExtensibleDataInterface
+interface PostInterface
 {
-    /**#@+
-     * Constants for keys of data array. Identical to the name of the getter in snake case
-     */
-    const POST_ID       = 'post_id';
+    const ID            = 'post_id';
+    const AUTHOR        = 'author';
     const TITLE         = 'title';
     const CONTENT       = 'content';
-    const CREATION_TIME = 'creation_time';
-    const UPDATE_TIME   = 'update_time';
     const IS_ACTIVE     = 'is_active';
-    /**#@-*/
+    const CREATION_TIME   = 'creation_time';
+    const UPDATE_TIME     = 'update_time';
 
     /**
-     * Get ID
-     *
-     * @return int|null
+     * @return int
      */
     public function getId();
 
     /**
-     * Get title
-     *
-     * @return string|null
+     * @return string
+     */
+    public function getAuthor();
+
+    /**
+     * @return string
      */
     public function getTitle();
 
     /**
-     * Get content
-     *
-     * @return string|null
+     * @return string
      */
     public function getContent();
 
     /**
-     * Get creation time
-     *
-     * @return string|null
+     * @return string
      */
     public function getCreationTime();
 
     /**
-     * Get update time
-     *
-     * @return string|null
+     * @return string
      */
     public function getUpdateTime();
 
     /**
-     * Is active
-     *
-     * @return bool|null
+     * @param string $author
+     * @return $this
      */
-    public function isActive();
+    public function setAuthor($author);
 
     /**
-     * Set ID
-     *
-     * @param int $id
-     * @return PostInterface
-     */
-    public function setId($id);
-
-    /**
-     * Set title
-     *
      * @param string $title
-     * @return PostInterface
+     * @return $this
      */
     public function setTitle($title);
 
     /**
-     * Set content
-     *
      * @param string $content
-     * @return PostInterface
+     * @return $this
      */
     public function setContent($content);
 
     /**
-     * Set creation time
-     *
      * @param string $creationTime
-     * @return PostInterface
+     * @return $this
      */
     public function setCreationTime($creationTime);
 
     /**
-     * Set update time
-     *
      * @param string $updateTime
-     * @return PostInterface
+     * @return $this
      */
     public function setUpdateTime($updateTime);
-
-    /**
-     * Set is active
-     *
-     * @param bool|int $isActive
-     * @return PostInterface
-     */
-    public function setIsActive($isActive);
-
-
-    /**
-     * @return \SMG\Blog\Api\Data\PostExtensionInterface|null
-     */
-    public function getExtensionAttributes();
-
-    /**
-     * @param \SMG\Blog\Api\Data\PostExtensionInterface $extensionAttributes
-     * @return void
-     */
-    public function setExtensionAttributes(PostExtensionInterface $extensionAttributes);
-
+    
 }
