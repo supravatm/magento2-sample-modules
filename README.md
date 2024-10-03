@@ -1,7 +1,6 @@
-### Magento2 Sample Modules
+### Synopsis
 
-This repository is a list of all module those are developed for purely tutorials purpose.
-
+This project is a collection of samples modules to demonstrate custom module creation in Magento 2.
 
 ### Developer
 
