@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="smg_sales_order_po_number" engine="innodb" comment="Sales orders PO Number">
+        <!-- The standard auto-incrementing id of the table. -->
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+ 
+        <!-- The reference to the order id. -->
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" comment="Order id"/>
+ 
+        <!-- The column we want to create is a free-form text field for a PO Number. -->
+        <column xsi:type="text" name="po_number" comment="Po number"/>
+ 
+        <!-- This is the primary key constraint for the database table. -->
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        
+        <!-- In order to enforce a 1:1 relation, create a unique constaint. -->
+        <constraint xsi:type="unique" referenceId="SMG_EXTENSION_ATTRIBUTE_SALES_ORDER_ORDER_ID">
+            <column name="order_id"/>
+        </constraint>
+ 
+        <!-- Create a foreign key constraint to the related table to be related, which in this case is sales_order. -->
+        <constraint xsi:type="foreign" referenceId="SMG_EXTENSION_ATTRIBUTE_SALES_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID" table="smg_extension_attribute_sales_order" column="order_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+</schema>
